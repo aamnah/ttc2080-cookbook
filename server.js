@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+
+const port = 3000;
 
 const app = express();
 app.use(express.json()); // convert json string to json object (from request)
@@ -17,13 +19,20 @@ db.on("error", (err) => console.error(`Connection Error: ${err}`));
 db.once("open", () => console.log(`Database connection established`));
 
 // Endpoints
-const endpoint = {
-  base: "/",
-  cookbooks: "/cookbooks",
-  cookbook: "/cookbooks/:id",
-  recipes: "/recipes/",
-  recipe: "/recipes/:id",
+const apiBaseUrl = "/api";
+const endpoints = {
+  base: `${apiBaseUrl}/`,
+  collections: `${apiBaseUrl}/collections`,
+  collection: `${apiBaseUrl}/collections/:id`,
+  recipes: `${apiBaseUrl}/recipes/`,
+  recipe: `${apiBaseUrl}/recipes/:id`,
+  groceryLists: `${apiBaseUrl}/groceries`,
+  groceryList: `${apiBaseUrl}/groceries/:id`,
 };
+
+const collectionSchema = new Schema({});
+const recipeSchema = new Schema({});
+const grocerySchema = new Schema({});
 
 const connectionString =
   // Start API and listen to port 3000
