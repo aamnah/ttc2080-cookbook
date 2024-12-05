@@ -57,6 +57,24 @@ app.get(apiEndpoint.base, (request, response) => {
   response.send(html);
 });
 
+// Cookbook: Create 
+app.post(apiEndpoint.cookbooks, async (request, response) => {
+  try {
+    const { title, thumbnail } = request.body;
+    const newCookbook = new Cookbook({
+      title,
+      thumbnail
+    })
+
+    const savedCookbook = await newCookbook.save();
+    response.json(savedCookbook)
+  } catch(err) {
+    console.error(`ERROR: Could not create cookbook: ${err}`);
+  }
+})
+
+
+
 // Cookbooks: GET
 app.get(apiEndpoint.cookbooks, async (request, response) => {
   try {
@@ -119,6 +137,7 @@ app.get(apiEndpoint.recipe, async (request, response) => {
     console.error(`ERROR: Could not get recipe by id: ${id}\n ${err}`);
   }
 });
+
 
 // Recipe: DELETE by ID
 app.delete(apiEndpoint.recipe, async (request, response) => {
