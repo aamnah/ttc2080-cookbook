@@ -6,8 +6,8 @@ const apiEndpoint = {
   cookbook: `${apiBaseUrl}/cookbooks/:id`,
   recipes: `${apiBaseUrl}/recipes/`,
   recipe: `${apiBaseUrl}/recipes/:id`,
-  groceryLists: `${apiBaseUrl}/groceries`,
-  groceryList: `${apiBaseUrl}/groceries/:id`,
+  tags: `${apiBaseUrl}/tags/`,
+  tag: `${apiBaseUrl}/tags/:name`,
 };
 
 export { apiEndpoint };
