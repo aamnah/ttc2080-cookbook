@@ -1,4 +1,4 @@
-export default function renderCardNew({
+export default function renderCardBtn({
   id = "",
   link = "",
   title = "Add New",
@@ -6,10 +6,10 @@ export default function renderCardNew({
 }) {
   let html = ``;
 
-  html += `<a href="${link}">
-      <div class="border-2 border-orange-200 w-32 min-h-44 flex flex-col rounded-xl text-center">
-        <img src="${image}" alt="${title}" class="rounded"/>
-        <p class="p-2">${title}</p>
+  html += `<a href="${link}" class="">
+      <div class=" min-h-16 flex flex-wrap items-center w-32 border-2 border-orange-200 rounded-xl p-2 hover:bg-orange-200 mb-2">
+        <img src="${image}" alt="${title}" class="rounded w-8 h-8 inline-flex"/>
+        <span class="p-2 font-semibold">${title}</span>
       </div>
     </a>`;
 
