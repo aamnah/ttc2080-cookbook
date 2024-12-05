@@ -1,0 +1,20 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "parcel": "^2.13.2",
+    "parcel-reporter-static-files-copy": "^1.5.3"
+  },
+  "staticFiles": {
+    "staticPath": "static",
+    "staticOutPath": "static"
+  },
+  "source": "./*"
+}
