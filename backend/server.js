@@ -49,10 +49,6 @@ const recipeSchema = new mongoose.Schema({
 });
 const Recipe = mongoose.model("Recipe", recipeSchema);
 
-// const grocerySchema = new mongoose.Schema({
-//   items: [String],
-// });
-
 app.get(apiEndpoint.base, (request, response) => {
   let html = `You have reached the API <br><br> The following endpoints are available: <br>`;
   for (let link in apiEndpoint) {
@@ -117,7 +113,7 @@ app.get(apiEndpoint.recipe, async (request, response) => {
   const { id } = request.params;
   try {
     const data = await Recipe.findById(id);
-    console.log(`recipes: ${data}`);
+    console.log(`recipe: ${data}`);
     response.json(data);
   } catch (err) {
     console.error(`ERROR: Could not get recipe by id: ${id}\n ${err}`);
