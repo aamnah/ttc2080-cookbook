@@ -2,7 +2,7 @@ import renderSidebarHtml from "./components/sidebar";
 import { fetchCookbooks } from "./api";
 import renderCard from "./components/card";
 import renderHeader from "./components/header";
-import renderCardNew from "./components/cardNew";
+import renderCardBtn from "./components/cardNew";
 
 function renderCookbooks(cookbooks) {
   const container = document.querySelector("#contentContainer");
@@ -10,11 +10,12 @@ function renderCookbooks(cookbooks) {
       <div>
       <h2 class="text-4xl" data-editable>Collections</h2>
       <div class="mt-2 flex flex-wrap gap-4">
-      ${renderCardNew({
-        title: "Add New Collection",
-        link: `collections/add`,
-        image: `/static/demo/placeholder_add.png`,
-      })}
+        ${renderCardBtn({
+          title: "Add New Collection",
+          link: `collection-add`,
+          image: `/static/demo/placeholder_add.png`,
+        })}
+
       ${cookbooks
         .map((item) => {
           const { _id, title, image } = item;

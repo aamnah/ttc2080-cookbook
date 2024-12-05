@@ -9,7 +9,7 @@ import renderHeader from "./components/header";
 
 const listingContainer = document.querySelector("#listingContainer");
 
-function renderCookbooks(cookbooks) {
+function render(cookbooks) {
   console.log(cookbooks);
   cookbooks.map((book) => {
     console.log(book);
@@ -28,7 +28,7 @@ async function run() {
   let cookbooks = await fetchCookbooks();
   let recipes = await fetchRecipes();
 
-  renderCookbooks(cookbooks);
+  render(cookbooks);
 }
 
 run();

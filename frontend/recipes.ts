@@ -2,7 +2,7 @@ import { fetchRecipes } from "./api";
 import renderSidebarHtml from "./components/sidebar";
 import renderCardHtml from "./components/card";
 import renderHeaderHtml from "./components/header";
-import renderCardNew from "./components/cardNew";
+import renderCardBtn from "./components/cardNew";
 
 function renderRecipes(recipes) {
   const container = document.querySelector("#contentContainer");
@@ -10,9 +10,9 @@ function renderRecipes(recipes) {
     <div>
       <h2 class="text-4xl" data-editable>Recipes</h2>
       <div class="mt-2 flex flex-wrap gap-4">
-      ${renderCardNew({
+      ${renderCardBtn({
         title: "Add New Recipe",
-        link: `recipes/add`,
+        link: `recipe-add`,
         image: `/static/demo/placeholder_add.png`,
       })}
       ${recipes

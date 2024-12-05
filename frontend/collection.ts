@@ -3,17 +3,17 @@ import { fetchCookbookById, fetchRecipeById } from "./api";
 import renderSidebarHtml from "./components/sidebar";
 import renderHeader from "./components/header";
 import renderCard from "./components/card";
-import renderCardNew from "./components/cardNew";
+import renderCardBtn from "./components/cardNew";
 
-function renderCookbook(title, recipes) {
+function renderCookbook(id, title, recipes) {
   const container = document.querySelector("#contentContainer");
   let html = `
   <div>
     <h2 class="text-4xl">${title}</h2>
     <div class="mt-2 flex flex-wrap gap-4">
-    ${renderCardNew({
+    ${renderCardBtn({
       title: "Add New Recipe",
-      link: `recipes/add`,
+      link: `recipe-add?cookbook=${id}`,
       image: `/static/demo/placeholder_add.png`,
     })}
     ${recipes
@@ -57,7 +57,7 @@ async function run() {
   }
 
   console.log(`recipes: ${recipes}`);
-  renderCookbook(data.title, recipes);
+  renderCookbook(id, data.title, recipes);
 }
 
 run();
