@@ -40,7 +40,7 @@ const recipeSchema = new mongoose.Schema({
     total: String,
   },
   ingredients: [String],
-  directions: String,
+  directions: [String],
   tags: [String],
   image: {
     thumbnail: String,
@@ -136,6 +136,20 @@ app.delete(apiEndpoint.recipe, async (request, response) => {
     console.error(`ERROR: Failed to delete recipe by ID: ${id} \n ${err}`);
   }
 });
+
+// app.get(apiEndpoint.tags, async (request, response) => {});
+// Tag: Get by Name
+app.get(apiEndpoint.tag, async (request, response) => {
+  const { name } = request.params;
+  try {
+    const data = await Recipe.find({ tags: name });
+    console.log(`tagged recipes: ${data}`);
+    response.json(data);
+  } catch (err) {
+    console.error(`ERROR: Failed to get tag by name: ${name} \n ${err}`);
+  }
+});
+
 
 // Start app and listen to port 3000
 app.listen(port, () => {
