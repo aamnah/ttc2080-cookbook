@@ -25,9 +25,13 @@ function renderRecipe(recipe) {
   const html = `
     <div data-id="${_id}">
       <h2 class="text-4xl" data-editable>${title}</h2>
-      <a id="editRecipe">Edit recipe</a>
-      <a id="saveRecipe" class="hidden">Save recipe</a>
-      <nav class="flex gap-2 mt-2">
+      <div class="mt-2 flex gap-4 items-center">
+        <a href="" class="editBtn border border-orange-200 px-2 py-1 rounded">Edit recipe</a>
+        <a href="" class="saveBtn hidden bg-orange-200 px-2 py-1 rounded">Save recipe</a>
+        <a href="" class="cancelBtn hidden border border-orange-200 px-2 py-1 rounded">Cancel</a>
+        <a href="" class="deleteBtn hidden border border-red-200 bg-red-200 px-2 py-1 rounded">Delete</a>
+      </div>
+      <nav class="flex gap-2 mt-4">
       ${tags
         .map(
           (tag) =>
@@ -35,18 +39,27 @@ function renderRecipe(recipe) {
         )
         .join("")}
       </nav>
-      <img src="static/demo/placeholder.png" alt="${title}" class="mt-2 rounded-2xl w-80 max-w-96">
-      <ul>
-        <li>Servings: <span data-editable>${servings}</span></li>     
-        <li>Prep time: <span data-editable>${time.prep}</span></li>
-        <li>Cook time: <span data-editable>${time.cook}</span></li>
-        <li>Total time: <span data-editable>${time.total}</span></li>        
+      <img src="static/demo/placeholder.png" alt="${title}" class="mt-4 rounded-2xl w-80 max-w-96">
+      <ul class="mt-4">
+            <li>Servings: <span data-editable>${servings}</span></li>
+
+            <li>Prep time: <span data-editable>${
+              time && time.prep ? time.prep : ""
+            }</span></li>
+  
+            <li>Cook time: <span data-editable>${
+              time && time.cook ? time.cook : ""
+            }</span></li>
+
+            <li>Total time: <span data-editable>${
+              time && time.total ? time.total : ""
+            }</span></li>
       </ul>
-      <h3 class="text-2xl mt-2">Ingredients</h3>
+      <h3 class="text-2xl mt-4">Ingredients</h3>
       <ul>
         ${ingredients.map((i) => `<li data-editable>${i}</li>`).join("")}
       </ul>
-      <h3 class="text-2xl mt-2">Directions</h3>
+      <h3 class="text-2xl mt-4">Directions</h3>
       ${
         Array.isArray(directions)
           ? `<ul>
@@ -55,6 +68,12 @@ function renderRecipe(recipe) {
           : `<p data-editable>${directions}</p>`
       }
 
+      <div class="mt-12 flex gap-4">
+        <a href="" class="editBtn border border-orange-200 px-6 py-4 rounded">Edit</a>
+        <a href="" class="saveBtn hidden bg-orange-200 px-6 py-4 rounded">Save</a>
+        <a href="" class="cancelBtn hidden border border-orange-200 px-6 py-4 rounded">Cancel</a>
+        <a href="" class="deleteBtn hidden border border-red-200 bg-red-200 px-6 py-4 rounded">Delete</a>
+      </div>
 
     </div>
   `;
@@ -80,66 +99,106 @@ async function run() {
   document.title = data.title;
   renderRecipe(data);
 
-  const editBtn = document.querySelector("#editRecipe");
-  const saveBtn = document.querySelector("#saveRecipe");
+  const editBtns = document.querySelectorAll(".editBtn");
+  const saveBtns = document.querySelectorAll(".saveBtn");
+  const cancelBtns = document.querySelectorAll(".cancelBtn");
+  const deleteBtns = document.querySelectorAll(".deleteBtn");
   const editableAreas = document.querySelectorAll("[data-editable]");
 
-  editBtn?.addEventListener("click", (event) => {
-    editBtn.style.display = "none";
-    saveBtn.style.display = "block";
+  // editBtn?.addEventListener("click", (event) => {
+  //   event.preventDefault();
+  //   editBtn.style.display = "none";
+  //   saveBtn.style.display = "block";
+  //   cancelBtn.style.display = "block";
+  //   deleteBtn.style.display = "block";
 
-    editableAreas.forEach((item) => {
-      item.setAttribute("contenteditable", "true");
+  //   editableAreas.forEach((item) => {
+  //     item.setAttribute("contenteditable", "true");
+  //   });
+  // });
+
+  // saveBtn?.addEventListener("click", (event) => {
+  //   event.preventDefault();
+  //   editBtn.style.display = "block";
+  //   saveBtn.style.display = "none";
+  //   cancelBtn.style.display = "none";
+  //   deleteBtn.style.display = "none";
+
+  //   editableAreas.forEach((item) => {
+  //     item.setAttribute("contenteditable", "false");
+  //   });
+  // });
+
+  // cancelBtn?.addEventListener("click", (event) => {
+  //   event.preventDefault();
+  //   editBtn.style.display = "block";
+  //   saveBtn.style.display = "none";
+  //   cancelBtn.style.display = "none";
+  //   deleteBtn.style.display = "none";
+  //   editableAreas.forEach((item) => {
+  //     item.setAttribute("contenteditable", "false");
+  //   });
+  // });
+  editBtns.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      editBtns.forEach((btn) => (btn.style.display = "none"));
+      saveBtns.forEach((btn) => (btn.style.display = "block"));
+      cancelBtns.forEach((btn) => (btn.style.display = "block"));
+      deleteBtns.forEach((btn) => (btn.style.display = "block"));
+      editableAreas.forEach((item) => {
+        item.setAttribute("contenteditable", "true");
+      });
     });
   });
 
-  saveBtn?.addEventListener("click", (event) => {
-    editBtn.style.display = "block";
-    saveBtn.style.display = "none";
-    editableAreas.forEach((item) => {
-      item.setAttribute("contenteditable", "false");
+  cancelBtns.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      editBtns.forEach((btn) => (btn.style.display = "block"));
+      saveBtns.forEach((btn) => (btn.style.display = "none"));
+      cancelBtns.forEach((btn) => (btn.style.display = "none"));
+      deleteBtns.forEach((btn) => (btn.style.display = "none"));
+
+      editableAreas.forEach((item) => {
+        item.setAttribute("contenteditable", "false");
+      });
     });
-    {
-      // make a call to the API
-    }
+  });
+
+  saveBtns.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      editBtns.forEach((btn) => (btn.style.display = "block"));
+      saveBtns.forEach((btn) => (btn.style.display = "none"));
+      cancelBtns.forEach((btn) => (btn.style.display = "none"));
+      deleteBtns.forEach((btn) => (btn.style.display = "none"));
+
+      editableAreas.forEach((item) => {
+        item.setAttribute("contenteditable", "false");
+      });
+    });
+    // TODO: make a call to the API
+  });
+
+  deleteBtns.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (confirm("Are you sure you want to delete?") === true) {
+        alert("got it");
+      }
+
+      editBtns.forEach((btn) => (btn.style.display = "block"));
+      saveBtns.forEach((btn) => (btn.style.display = "none"));
+      cancelBtns.forEach((btn) => (btn.style.display = "none"));
+      deleteBtns.forEach((btn) => (btn.style.display = "none"));
+
+      editableAreas.forEach((item) => {
+        item.setAttribute("contenteditable", "false");
+      });
+    });
+    // TODO: make a call to the API
   });
 }
 
 run();
-
-/*
-{
-"date": {
-"created": "2024-12-05T00:00:00.000Z",
-"lastmod": "2024-12-05T00:00:00.000Z"
-},
-"time": {
-"prep": "5 mins",
-"cook": "0 mins",
-"total": "5 mins"
-},
-"image": {
-"thumbnail": "fruit_smoothie_thumb.jpg",
-"more": [
-"smoothie_step1.jpg",
-"smoothie_step2.jpg"
-]
-},
-"_id": "6750d37b5237ce325c1c9a37",
-"title": "Fruit Smoothie",
-"servings": 2,
-"ingredients": [
-"1 banana",
-"1 cup frozen berries",
-"1 cup milk or plant-based milk",
-"1 tbsp honey (optional)"
-],
-"directions": "Blend all ingredients until smooth. Serve immediately.",
-"tags": [
-"Drink",
-"Healthy",
-"Quick",
-"Vegan"
-]
-}
-*/
