@@ -1,6 +1,6 @@
 let recipe = {
   title: "",
-  servings: "",
+  servings: 3,
   time: {
     prep: "",
     cook: "",
@@ -12,6 +12,10 @@ let recipe = {
   image: {
     thumbnail: "",
     more: ["url", "path"],
+  },
+  date: {
+    created: "",
+    lastmod: "",
   },
 };
 
