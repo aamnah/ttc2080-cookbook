@@ -1,45 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cookbook Manager</title>
-    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="./main.css" />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-slate-200">
-    <div class="container mx-auto p-12">
-      <h1>Cookbook Manager</h1>
-      <div class="grid grid-cols-12 gap-4">
-
-        <div class="sidebar col-span-2">
-          <nav class="flex flex-col gap-1">
-            <a href="#" class="hover:bg-slate-50 px-4 py-3 rounded-lg">Home</a>
-            <a href="/collections" class="hover:bg-slate-50 px-4 py-3 rounded-lg">Collections</a>
-            <a href="/recipes" class="hover:bg-slate-50 px-4 py-3 rounded-lg">Recipes</a
-            ><a href="/groceries" class="hover:bg-slate-50 px-4 py-3 rounded-lg">Groceries</a>
-            <a href="/tags" class="hover:bg-slate-50 px-4 py-3 rounded-lg">Tags</a>
-          </nav>
+  <body class="bg-orange-50">
+    <div id="headerContainer">
+      <!-- Generated header html goes here -->
+    </div>
+    <div class="container mx-auto p-12 bg-orange-50">
+      <div id="appContainer" class="grid grid-cols-12 gap-12">
+        <div id="sidebarContainer" class="sidebar col-span-2">
+          <!-- Generated sidebar html goes here -->
         </div>
-        <div id="listingContainer" class="col-span-10 flex flex-wrap gap-4">
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
-          <div class="w-32 h-32 bg-red-100 flex items-center justify-center rounded-2xl text-4xl">+</div>
+        <div id="contentContainer" class="col-span-10 flex flex-wrap gap-4">
+          <!-- Generated recipe HTML goes here -->
         </div>
       </div>
     </div>
-
     <script type="module" src="./index.ts"></script>
   </body>
 </html>

@@ -4,6 +4,8 @@ import {
   fetchRecipes,
   fetchRecipeById,
 } from "./api";
+import renderSidebarHtml from "./components/sidebar";
+import renderHeader from "./components/header";
 
 const listingContainer = document.querySelector("#listingContainer");
 
@@ -18,6 +20,11 @@ function renderCookbooks(cookbooks) {
 }
 
 async function run() {
+  const sidebarContainer = document.querySelector("#sidebarContainer");
+  const headerContainer = document.querySelector("#headerContainer");
+  sidebarContainer.innerHTML = renderSidebarHtml();
+  headerContainer.innerHTML = renderHeader();
+
   let cookbooks = await fetchCookbooks();
   let recipes = await fetchRecipes();
 
