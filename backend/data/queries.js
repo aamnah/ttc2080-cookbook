@@ -18,6 +18,22 @@ db.cookbooks.updateMany(
   }
 );
 
+db.cookbooks.updateMany(
+  { "items.item": "Homemade Pizza" },
+  { $set: { "items.$[elem].item": "6750d37b5237ce325c1c9a30" } },
+  {
+    arrayFilters: [{ "elem.item": "Homemade Pizza" }],
+  }
+);
+
+db.cookbooks.updateMany(
+  { "items.item": "Caprese Salad" },
+  { $set: { "items.$[elem].item": "6750d37b5237ce325c1c9a34" } },
+  {
+    arrayFilters: [{ "elem.item": "Caprese Salad" }],
+  }
+);
+
 // insertMany only works if the collection exists
 db.recipes.insertMany([
   {

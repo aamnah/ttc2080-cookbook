@@ -1,0 +1,18 @@
+meta {
+  name: Create Cookbook
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/cookbooks/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    title: "Test 1",
+    thumbnial: ""
+  }
+}

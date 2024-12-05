@@ -1,0 +1,25 @@
+meta {
+  name: Create Recipe
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/recipes/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Rando recipe",
+    "thumbnail": "/static/demo/placeholder.png",
+    "servings": 3,
+    "prepTime": "5 mins",
+    "cookTime": "5 mins",
+    "totalTime":  "10 mins",
+    "ingredients": ["3 carrots", "1 cabbage", "2potatoes"],
+    "directions": ["boil stuff", "broil stuff", "serve hot"],
+    "cookbooks": ["67520095d837634c9d6c4906"]
+  }
+}
