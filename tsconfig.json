@@ -23,5 +23,5 @@
 
     "outDir": "./frontend/js"
   },
-  "include": ["./frontend/*"]
+  "include": ["./frontend/*", "frontend/components/sidebar.ts"]
 }
