@@ -1,8 +1,7 @@
 import express from "express";
 import cors from "cors";
-import path from "path";
 import mongoose from "mongoose";
-import { endpoint } from "./src/constants.js";
+import { apiEndpoint } from "./constants.js";
 
 const port = 3000;
 
@@ -10,8 +9,6 @@ const app = express();
 
 app.use(express.json()); // convert json string to json object (from request)
 app.use(cors()); // allow requests from different domains and ports
-// Define the directory where your static files (including HTML) are located
-app.use(express.static(path.join(__dirname, "public")));
 
 // Database connection setup
 const { MONGODB_USER, MONGODB_DATABASE, MONGODB_PASS, MONGODB_CLUSTER } =
@@ -56,8 +53,16 @@ const Recipe = mongoose.model("Recipe", recipeSchema);
 //   items: [String],
 // });
 
+app.get(apiEndpoint.base, (request, response) => {
+  let html = `You have reached the API <br><br> The following endpoints are available: <br>`;
+  for (let link in apiEndpoint) {
+    html += `${link}: ${apiEndpoint[link]} <br>`;
+  }
+  response.send(html);
+});
+
 // Cookbooks: GET
-app.get(endpoint.cookbooks, async (request, response) => {
+app.get(apiEndpoint.cookbooks, async (request, response) => {
   try {
     const data = await Cookbook.find();
     console.log(`cookbooks: ${data}`);
@@ -68,7 +73,7 @@ app.get(endpoint.cookbooks, async (request, response) => {
 });
 
 // Cookbook: GET by ID
-app.get(endpoint.cookbook, async (request, response) => {
+app.get(apiEndpoint.cookbook, async (request, response) => {
   const { id } = request.params;
   try {
     const data = await Cookbook.findById(id);
@@ -80,7 +85,7 @@ app.get(endpoint.cookbook, async (request, response) => {
 });
 
 // Cookbook: DELETE by ID
-app.delete(endpoint.cookbook, async (request, response) => {
+app.delete(apiEndpoint.cookbook, async (request, response) => {
   const { id } = request.params;
   try {
     const doc = await Cookbook.findById(id);
@@ -97,7 +102,7 @@ app.delete(endpoint.cookbook, async (request, response) => {
 });
 
 // Recipes: GET
-app.get(endpoint.recipes, async (request, response) => {
+app.get(apiEndpoint.recipes, async (request, response) => {
   try {
     const data = await Recipe.find();
     console.log(`recipes: ${data}`);
@@ -108,7 +113,7 @@ app.get(endpoint.recipes, async (request, response) => {
 });
 
 // Recipe: GET by ID
-app.get(endpoint.recipe, async (request, response) => {
+app.get(apiEndpoint.recipe, async (request, response) => {
   const { id } = request.params;
   try {
     const data = await Recipe.findById(id);
@@ -120,7 +125,7 @@ app.get(endpoint.recipe, async (request, response) => {
 });
 
 // Recipe: DELETE by ID
-app.delete(endpoint.recipe, async (request, response) => {
+app.delete(apiEndpoint.recipe, async (request, response) => {
   const { id } = request.params;
   try {
     const doc = await Recipe.findById(id);

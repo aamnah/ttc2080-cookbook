@@ -1,6 +1,6 @@
 // Endpoints
 const apiBaseUrl = "/api";
-const endpoint = {
+const apiEndpoint = {
   base: `${apiBaseUrl}/`,
   cookbooks: `${apiBaseUrl}/cookbooks`,
   cookbook: `${apiBaseUrl}/cookbooks/:id`,
@@ -10,4 +10,4 @@ const endpoint = {
   groceryList: `${apiBaseUrl}/groceries/:id`,
 };
 
-export { endpoint };
+export { apiEndpoint };

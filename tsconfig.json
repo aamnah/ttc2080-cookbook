@@ -8,19 +8,20 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    "allowJs": true, //import ".js" extensions
+    "noEmit": true, // output .js files
+    // "allowImportingTsExtensions": true // allows TypeScript files to import each other with a TypeScript-specific extension like .ts, .mts, or .tsx., can not work if noEmit is true
 
     /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
+    // "strict": false,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noUncheckedSideEffectImports": true
 
-    "outDir": "src"
+    "outDir": "./frontend/js"
   },
-  "include": ["src/*", "src/constants.ts"]
+  "include": ["./frontend/*"]
 }

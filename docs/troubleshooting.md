@@ -11,3 +11,12 @@ Typescript generates all files with a `.js` file extension, even if it was gener
 ```js
 // --outFile.
 ```
+
+## Vite only building index.html and nothing in source
+Turns out Vite only builds the entry point file. You have to specify the others on your own.
+
+Easiest fix is to move your `index.html` to `src` and make `src` the new root
+
+## Build on file change
+https://vite.dev/guide/build.html#rebuild-on-files-changes
+https://rollupjs.org/configuration-options/#watch

@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "moduleResolution": "node",
-    "module": "CommonJS",
-    "esModuleInterop": true
-  },
-  "include": ["./server.ts", "./src/constants.ts"]
-}
