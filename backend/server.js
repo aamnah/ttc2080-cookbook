@@ -42,6 +42,7 @@ const recipeSchema = new mongoose.Schema({
   ingredients: [String],
   directions: [String],
   tags: [String],
+  cookbooks: [String],
   image: {
     thumbnail: String,
     more: [String],
@@ -57,23 +58,58 @@ app.get(apiEndpoint.base, (request, response) => {
   response.send(html);
 });
 
-// Cookbook: Create 
+// Cookbook: Create
 app.post(apiEndpoint.cookbooks, async (request, response) => {
   try {
     const { title, thumbnail } = request.body;
     const newCookbook = new Cookbook({
       title,
-      thumbnail
-    })
+      thumbnail,
+    });
 
     const savedCookbook = await newCookbook.save();
-    response.json(savedCookbook)
-  } catch(err) {
+    response.json(savedCookbook);
+  } catch (err) {
     console.error(`ERROR: Could not create cookbook: ${err}`);
   }
-})
+});
 
+// Recipe: Create
+app.post(apiEndpoint.recipes, async (request, response) => {
+  try {
+    const {
+      title,
+      servings,
+      prepTime,
+      cookTime,
+      totalTime,
+      thumbnail,
+      ingredients,
+      directions,
+      cookbooks,
+    } = request.body;
+    const newRecipe = new Recipe({
+      title,
+      servings,
+      time: {
+        prep: prepTime,
+        cook: cookTime,
+        total: totalTime,
+      },
+      image: {
+        thumbnail: thumbnail ? thumbnail : "/static/demo/placeholder.png",
+      },
+      ingredients,
+      directions,
+      cookbooks,
+    });
 
+    const savedRecipe = await newRecipe.save();
+    response.json(savedRecipe);
+  } catch (err) {
+    console.error(`ERROR: Could not create recipe: ${err}`);
+  }
+});
 
 // Cookbooks: GET
 app.get(apiEndpoint.cookbooks, async (request, response) => {
