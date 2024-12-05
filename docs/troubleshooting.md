@@ -20,3 +20,9 @@ Easiest fix is to move your `index.html` to `src` and make `src` the new root
 ## Build on file change
 https://vite.dev/guide/build.html#rebuild-on-files-changes
 https://rollupjs.org/configuration-options/#watch
+
+## Unnecessary commas with `map`
+
+Use `.join('')` on the result of `.map()`
+
+https://stackoverflow.com/a/45812277

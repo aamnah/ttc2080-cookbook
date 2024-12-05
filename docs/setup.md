@@ -7,6 +7,9 @@ date: 2024-12-04
 
 ```bash
 npx parcel 'frontend/*' # start parcel
+
+# -OR-
+npm run dev
 ```
 
 - Not using [Vite]() anymore because it only outputs one `index.html` file and added unnecessary complexity
