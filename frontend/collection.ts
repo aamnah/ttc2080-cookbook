@@ -1,0 +1,63 @@
+import { getQueryParam } from "./helpers";
+import { fetchCookbookById, fetchRecipeById } from "./api";
+import renderSidebarHtml from "./components/sidebar";
+import renderHeader from "./components/header";
+import renderCard from "./components/card";
+import renderCardNew from "./components/cardNew";
+
+function renderCookbook(title, recipes) {
+  const container = document.querySelector("#contentContainer");
+  let html = `
+  <div>
+    <h2 class="text-4xl">${title}</h2>
+    <div class="mt-2 flex flex-wrap gap-4">
+    ${renderCardNew({
+      title: "Add New Recipe",
+      link: `recipes/add`,
+      image: `/static/demo/placeholder_add.png`,
+    })}
+    ${recipes
+      .map((recipe) => {
+        const { _id, title, image } = recipe;
+        return renderCard({
+          id: _id,
+          title,
+          link: `recipe?id=${_id}`,
+          // image: thumbnail,
+        });
+      })
+      .join("")}
+    </div>
+  </div>
+  `;
+
+  console.log(`cookbook.items: ${recipes}`);
+
+  container.innerHTML = html;
+}
+async function run() {
+  const sidebarContainer = document.querySelector("#sidebarContainer");
+  sidebarContainer.innerHTML = renderSidebarHtml();
+  const headerContainer = document.querySelector("#headerContainer");
+  headerContainer.innerHTML = renderHeader();
+
+  const id = getQueryParam(window.location, "id");
+
+  const data = await fetchCookbookById(id);
+  // TODO: Show all the recipes in the cookbook
+
+  console.log(`cookbook: ${data}`);
+  document.title = data.title;
+
+  const recipes = [];
+  for (let id of data.items) {
+    const recipe = await fetchRecipeById(id);
+    console.log(`recipe: ${recipe.title}`);
+    recipes.push(recipe);
+  }
+
+  console.log(`recipes: ${recipes}`);
+  renderCookbook(data.title, recipes);
+}
+
+run();
