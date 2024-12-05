@@ -1,0 +1,15 @@
+meta {
+  name: Cookbooks by ID
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/cookbooks/{{sampleId}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  sampleId: 6750d54d5237ce325c1c9a3d
+}
