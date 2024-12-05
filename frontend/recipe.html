@@ -4,11 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recipe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <script>
-    console.log(window.location.pathname)
-  </script>
+<body class="bg-slate-200">
+  <div class="container mx-auto p-12">
+    <h1>Cookbook Manager</h1>
+    <div id="appContainer" class="grid grid-cols-12 gap-4">
+      <div id="sidebarContainer" class="sidebar col-span-2">
+        <!-- Generated sidebar html goes here -->
+      </div>
+      <div id="contentContainer" class="col-span-10 flex flex-wrap gap-4">
+        <!-- Generated recipe HTML goes here -->
+      </div>
+  </div>
+
   <script type="module" src="./recipe.ts"></script>
 </body>
 </html>
