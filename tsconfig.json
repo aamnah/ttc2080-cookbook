@@ -18,7 +18,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "outDir": "src"
   },
-  "include": ["../src"]
+  "include": ["src/*", "src/constants.ts"]
 }
