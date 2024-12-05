@@ -20,6 +20,7 @@ export async function fetchRecipeById(id: string) {
     return data;
   } catch (err) {
     console.error(`API ERROR: Could not get recipe by ID: ${id}\n ${err}`);
+    return [];
   }
 }
 
@@ -41,5 +42,15 @@ export async function fetchCookbookById(id: string) {
     return data;
   } catch (err) {
     console.error(`API ERROR: Could not get cookbook by ID: ${id} \n ${err}`);
+  }
+}
+
+export async function fetchRecipesByTag(tag: string) {
+  try {
+    const response = await fetch(`${apiBaseUrl}/tags/${tag}`);
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error(`API ERROR: Failed to get tag by name: ${tag} \n ${err}`);
   }
 }
