@@ -247,6 +247,16 @@ app.get(apiEndpoint.tag, async (request, response) => {
   }
 });
 
+// Handle all 404 errors
+app.use((request, response, next) => {
+  const res = {
+    route: request.originalUrl,
+    message: "Route not found",
+  };
+  response
+    .status(404)
+    .json(res);
+});
 
 // Start app and listen to port 3000
 app.listen(port, () => {
