@@ -24,8 +24,8 @@ const apiBaseUrl = "/api";
 const apiEndpoint = {
   base: `${apiBaseUrl}/`,
   cookbooks: `${apiBaseUrl}/cookbooks`,
-  recipes: `${apiBaseUrl}/recipes/`,
-  tags: `${apiBaseUrl}/tags/`,
+  recipes: `${apiBaseUrl}/recipes`,
+  tags: `${apiBaseUrl}/tags`,
 };
 
 const cookbookSchema = new mongoose.Schema({
@@ -50,11 +50,11 @@ const recipeSchema = new mongoose.Schema({
   ingredients: [String],
   directions: [String],
   tags: [String],
-  cookbooks: [String],
   image: {
     thumbnail: String,
     more: [String],
   },
+  cookbookId: String,
 });
 const Recipe = mongoose.model("Recipe", recipeSchema);
 
@@ -122,19 +122,30 @@ app.delete(`${apiEndpoint.cookbooks}/:id`, async (request, response) => {
   }
 });
 
-// Recipes: GET all, GET many by ID, NAME, COLLECTION
+// Recipe: GET one by ID
+app.get(`${apiEndpoint.recipes}/:id`, async (request, response) => {
+  const { id } = request.params;
+  try {
+    const data = await Recipe.findById(id);
+    if (data) {
+      console.log(`Recipe by ID: ${data}`);
+      response.json(data);
+    } else {
+      response.status(404).json({ error: `Recipe not found with ID: ${id}` });
+    }
+  } catch (err) {
+    console.error(`ERROR: Could not get recipe by id: ${id}\n ${err}`);
+  }
+});
+
+// Recipes: GET all, GET many by NAME, COLLECTION
 app.get(apiEndpoint.recipes, async (request, response) => {
-  const { id, name, cookbookId } = request.query;
-  // If params are missing, or spelled/named incorrectly, it will return ALL results
+  const { name, cookbookId } = request.query;
+  // NOTE: If params are missing, or spelled/named incorrectly, it will return ALL results
   try {
     let data;
-    if (id) {
-      data = await Recipe.findById(id);
-      console.log(`recipes by ID: ${data}`);
-      response.json(data);
-    }
     // TODO: [x] implement multiple filters
-    else if (name && cookbookId) {
+    if (name && cookbookId) {
       data = await Recipe.find({
         title: { $regex: name, $options: "i" },
         cookbookId: cookbookId,
@@ -151,6 +162,7 @@ app.get(apiEndpoint.recipes, async (request, response) => {
       data = await Recipe.find({ title: { $regex: name, $options: "i" } }); // Partial match for title (case-insensitive)
       if (data) {
         console.log(`recipes by Name: ${data}`);
+        console.log(data.length);
         response.json(data);
       } else {
         response
@@ -159,6 +171,7 @@ app.get(apiEndpoint.recipes, async (request, response) => {
       }
     } else if (cookbookId) {
       // These results are different from what you will get from /cookbook/:id
+      // This returns all recipes {} while the other one only returns items[] containing recipe ids
       data = await Recipe.find({ cookbookId: cookbookId });
       if (data) {
         console.log(`recipes by Cookbook ID: ${data}`);
@@ -181,23 +194,6 @@ app.get(apiEndpoint.recipes, async (request, response) => {
     console.error(`ERROR: Could not get recipes: ${err}`);
   }
 });
-
-// Recipe: GET one by ID
-app.get(`${apiEndpoint.recipes}/:id`, async (request, response) => {
-  const { id } = request.params;
-  try {
-    const data = await Recipe.findById(id);
-    if (data) {
-      console.log(`recipe: ${data}`);
-      response.json(data);
-    } else {
-      response.status(404).json({ error: `Recipe not found with ID: ${id}` });
-    }
-  } catch (err) {
-    console.error(`ERROR: Could not get recipe by id: ${id}\n ${err}`);
-  }
-});
-
 // Recipe: Create
 app.post(apiEndpoint.recipes, async (request, response) => {
   try {
@@ -296,7 +292,7 @@ app.delete(`${apiEndpoint.recipes}/:id`, async (request, response) => {
 
 // app.get(apiEndpoint.tags, async (request, response) => {});
 // Tag: Get by Name
-app.get(`${apiEndpoint.tags}/:name`, async (request, response) => {
+app.get(`${apiEndpoint.tags}`, async (request, response) => {
   const { name } = request.query;
   try {
     const data = await Recipe.find({ tags: name });
@@ -308,17 +304,17 @@ app.get(`${apiEndpoint.tags}/:name`, async (request, response) => {
 });
 
 // Handle all 404 errors
+// Any 404 responses added later will overwrite this one
 app.use((request, response, next) => {
   const res = {
     route: request.originalUrl,
     message: "Route not found",
   };
-  response
-    .status(404)
-    .json(res);
+  response.status(404).json(res);
 });
 
 // Start app and listen to port 3000
 app.listen(port, () => {
   console.log(`API listening on port ${port}`);
 });
+

@@ -1,15 +1,21 @@
 meta {
   name: Recipe by Cookbook ID
   type: http
-  seq: 5
+  seq: 6
 }
 
 get {
-  url: {{baseUrl}}/recipes?collectionId=6752ec52fabf10ff02ca447a
+  url: {{baseUrl}}/recipes?cookbookId=6752ec52fabf10ff02ca447a
   body: none
   auth: none
 }
 
 params:query {
-  collectionId: 6752ec52fabf10ff02ca447a
+  cookbookId: 6752ec52fabf10ff02ca447a
+}
+
+docs {
+  These results are different from what you will get from /cookbook/:id
+  
+  This returns all recipe objects while the other one only returns and items array with recipe ids
 }
