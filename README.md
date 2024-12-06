@@ -11,9 +11,9 @@ More than 8 custom views have been added. Some are
 
 ![Recipes landing page](./screenshots/recipe-listing.png)
 
-![View recipe](./screenshots/recipe.png)
-
 ![Add new recipe](./screenshots/recipe-add.png)
+
+![View recipe](./screenshots/recipe.png)
 
 ![Edit recipe](./screenshots/recipe-edit.png)
 
