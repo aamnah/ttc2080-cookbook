@@ -154,7 +154,7 @@ async function handleEvents() {
       const done = await createRecipe(gatherRequestBody());
 
       if (done) {
-        statusText = `<span class="text-green-500">Successfully created new recipe. Redirecting to Recipes listing page ${renderSpinner()}</span>`;
+        statusText = `<span class="text-green-500">Successfully created new recipe. Redirecting.. ${renderSpinner()}</span>`;
         statusTextContainer.innerHTML = statusText;
         window.setTimeout(() => {
           const collectionId = getQueryParam(window.location, "collectionId");
@@ -164,7 +164,7 @@ async function handleEvents() {
           } else {
             window.location.href = "/recipes";
           }
-        }, 5000);
+        }, 4000);
       }
     } catch (err) {
       statusText = `<span class="text-red-500">Could not create recipe. ${err}</span>`;
