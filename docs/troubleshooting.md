@@ -71,3 +71,14 @@ if (data) {
   });
 }
 ```
+
+## `fetch` returning undefined inside `map` or waiting for promise to resolve inside `map`
+
+Array iterators like `map` or `forEach` don't work with promises because they don't know how to await a result. Use a simple `for` loop instead:
+
+```js
+for (let person of people)
+  person.status = await this.calculatorService.getStatus(person)
+```
+
+[ref](https://stackoverflow.com/a/59137767)
