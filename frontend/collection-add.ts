@@ -52,6 +52,25 @@ async function run() {
     }
   });
 
+  collectionTitleInput.addEventListener("keydown", async (event) => {
+    if (event.key === "Enter") {
+      try {
+        const title = event.target.value;
+        const thumbnail = "/static/demo/placeholder.png";
+        // console.log(`title: ${title} | thumbnail: ${thumbnail}`);
+        const done = await createCollection({ title, thumbnail });
+        if (done) {
+          statusText = `<span class="text-green-500">Successfully created new collection.</span>`;
+          statusTextContainer.innerHTML = statusText;
+        }
+      } catch (err) {
+        statusText = `<span class="text-green-500">Could not create collection. ${err}</span>`;
+        console.error(statusText);
+        statusTextContainer.innerHTML = statusText;
+      }
+    }
+  });
+
   // Cancel button
   document.querySelector("#cancelBtn").addEventListener("click", (event) => {
     event.preventDefault();
