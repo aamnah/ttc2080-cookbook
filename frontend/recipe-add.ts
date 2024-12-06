@@ -71,7 +71,16 @@ function renderView() {
   container.innerHTML = html;
 }
 
+function initialRender() {
+  const sidebarContainer = document.querySelector("#sidebarContainer");
+  sidebarContainer.innerHTML = renderSidebarHtml();
+
+  const headerContainer = document.querySelector("#headerContainer");
+  headerContainer.innerHTML = renderHeader();
+}
+
 function gatherRequestBody(cookbookId) {
+  // TODO: if a recipe is being added from a collection, pass the collection ID with the request
   const containerElement = {
     title: document.querySelector("input#recipeTitle"),
     servings: document.querySelector("input#servingsCount"),
@@ -104,19 +113,10 @@ function gatherRequestBody(cookbookId) {
   return values;
 }
 
-async function run() {
-  const sidebarContainer = document.querySelector("#sidebarContainer");
-  sidebarContainer.innerHTML = renderSidebarHtml();
-
-  const headerContainer = document.querySelector("#headerContainer");
-  headerContainer.innerHTML = renderHeader();
-
-  renderView();
-
+async function handleEvents() {
+  // Add ingredients
   const ingredientInput = document.querySelector("input#ingredientInput");
-
   const ingredientsContainer = document.querySelector("#ingredientsList");
-
   ingredientInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       let value = ingredientInput.value;
@@ -125,10 +125,9 @@ async function run() {
     }
   });
 
+  // Direction steps
   const directionInput = document.querySelector("input#directionInput");
-
   const directionsContianer = document.querySelector("#directionsList");
-
   directionInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       let value = event.target.value;
@@ -137,10 +136,9 @@ async function run() {
     }
   });
 
-  // Save
+  // Save button
   const saveBtn = document.querySelector("#saveBtn");
   const statusTextContainer = document.querySelector("#statusText");
-
   saveBtn?.addEventListener("click", (event) => {
     event.preventDefault();
     let statusText = "";
@@ -164,6 +162,12 @@ async function run() {
     event.preventDefault();
     history.back();
   });
+}
+
+async function run() {
+  initialRender();
+  renderView();
+  handleEvents();
 }
 
 run();

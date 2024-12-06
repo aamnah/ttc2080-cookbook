@@ -40,11 +40,7 @@ function renderCookbook(id, title, recipes) {
   container.innerHTML = html;
 }
 async function run() {
-  const sidebarContainer = document.querySelector("#sidebarContainer");
-  sidebarContainer.innerHTML = renderSidebarHtml();
-  const headerContainer = document.querySelector("#headerContainer");
-  headerContainer.innerHTML = renderHeader();
-
+  initialRender();
   const id = getQueryParam(window.location, "id");
 
   const data = await fetchCookbookById(id);
@@ -67,3 +63,10 @@ async function run() {
 }
 
 run();
+
+function initialRender() {
+  const sidebarContainer = document.querySelector("#sidebarContainer");
+  sidebarContainer.innerHTML = renderSidebarHtml();
+  const headerContainer = document.querySelector("#headerContainer");
+  headerContainer.innerHTML = renderHeader();
+}
