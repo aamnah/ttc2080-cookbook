@@ -3,6 +3,8 @@ title: Setup
 date: 2024-12-04
 ---
 
+![Dev Setup](../screenshots/dev-setup.png)
+
 ## Frontend
 
 ```bash

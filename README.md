@@ -9,6 +9,10 @@ A recipe book manager that lets you oraganize and store recipes.
 
 ![Recipes landing page](./screenshots/recipe-listing.png)
 
+![Add new recipe](./screenshots/recipe-add.png)
+
+![Edit recipe](./screenshots/recipe-edit.png)
+
 ```bash
 # Frontend
 cd frontend
