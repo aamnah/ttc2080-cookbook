@@ -43,10 +43,8 @@ npm install && npm run dev
 - Uploading of images
 
 ## Stack
-- Web Server: Express
 - Frontend: Plain old HTML, CSS and JavaScript
 - API: REST API powered by Express
-
 
 ## Time costs
 
