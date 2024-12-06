@@ -166,7 +166,7 @@ export async function updateRecipe(
     };
 
     const response = await fetch(`${apiBaseUrl}/recipes/`, {
-      method: "Put",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
