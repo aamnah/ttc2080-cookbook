@@ -95,17 +95,23 @@ export async function createRecipe(recipe: {
   totalTime?: string;
   ingredients: string[];
   directions: string[];
+  cookbookId?: string;
 }) {
   try {
     const body = {
       title: recipe.title,
-      thumbnail: recipe.thumbnail ?? "/static/demo/placeholder.png",
-      servings: recipe.servings ?? 1,
-      prepTime: recipe.prepTime ?? "",
-      cookTime: recipe.cookTime ?? "",
-      totalTime: recipe.totalTime ?? "",
+      servings: recipe.servings ?? 1, // ?? is the Nullish coalescing operator (??) return right if lef is null or undefined
+      time: {
+        prep: recipe.prepTime ?? "",
+        cook: recipe.cookTime ?? "",
+        total: recipe.totalTime ?? "",
+      },
+      image: {
+        thumbnail: recipe.thumbnail ?? "/static/demo/placeholder.png",
+      },
       ingredients: recipe.ingredients ?? [],
       directions: recipe.directions ?? [],
+      cookbookId: recipe.cookbookId ?? "",
     };
 
     const response = await fetch(`${apiBaseUrl}/recipes/`, {
@@ -125,6 +131,57 @@ export async function createRecipe(recipe: {
     return data;
   } catch (err) {
     console.error(`API ERROR: Failed to create recipe: ${err} \n ${err}`);
+  }
+}
+
+export async function updateRecipe(
+  id: string,
+  recipe: {
+    title: string;
+    thumbnail?: string;
+    servings?: number;
+    prepTime?: string;
+    cookTime?: string;
+    totalTime?: string;
+    ingredients: string[];
+    directions: string[];
+    cookbookId?: string;
+  }
+) {
+  try {
+    const body = {
+      title: recipe.title,
+      servings: recipe.servings ?? 1, // ?? is the Nullish coalescing operator (??) return right if lef is null or undefined
+      time: {
+        prep: recipe.prepTime ?? "",
+        cook: recipe.cookTime ?? "",
+        total: recipe.totalTime ?? "",
+      },
+      image: {
+        thumbnail: recipe.thumbnail ?? "/static/demo/placeholder.png",
+      },
+      ingredients: recipe.ingredients ?? [],
+      directions: recipe.directions ?? [],
+      cookbookId: recipe.cookbookId ?? "",
+    };
+
+    const response = await fetch(`${apiBaseUrl}/recipes/`, {
+      method: "Put",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      console.error(
+        `API ERROR: Response not okay. Failed to update recipe: \n ${response}`
+      );
+      const data = await response.json();
+      return data;
+    }
+  } catch (err) {
+    console.error(`API ERROR: Failed to update recipe by ID: ${id} \n ${err}`);
   }
 }
 

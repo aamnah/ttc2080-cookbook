@@ -1,18 +1,18 @@
 meta {
-  name: Create Recipe
+  name: Update Recipe
   type: http
-  seq: 8
+  seq: 9
 }
 
-post {
-  url: {{baseUrl}}/recipes/
+put {
+  url: {{baseUrl}}/recipes/{{recipeId}}
   body: json
   auth: none
 }
 
 body:json {
   {
-    "title": "Random recipe",
+    "title": "Random recipe is truly awesome",
     "servings": 3,
     "time": {
       "prepTime": "5 mins",
@@ -26,4 +26,8 @@ body:json {
     "directions": ["boil stuff", "broil stuff", "serve hot"],
     "cookbookId": "67520095d837634c9d6c4906"
   }
+}
+
+vars:pre-request {
+  recipeId: 6752ce4b1a478b47bec2cbe0
 }

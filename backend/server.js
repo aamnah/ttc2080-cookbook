@@ -74,43 +74,6 @@ app.post(apiEndpoint.cookbooks, async (request, response) => {
   }
 });
 
-// Recipe: Create
-app.post(apiEndpoint.recipes, async (request, response) => {
-  try {
-    const {
-      title,
-      servings,
-      prepTime,
-      cookTime,
-      totalTime,
-      thumbnail,
-      ingredients,
-      directions,
-      cookbooks,
-    } = request.body;
-    const newRecipe = new Recipe({
-      title,
-      servings,
-      time: {
-        prep: prepTime,
-        cook: cookTime,
-        total: totalTime,
-      },
-      image: {
-        thumbnail: thumbnail ? thumbnail : "/static/demo/placeholder.png",
-      },
-      ingredients,
-      directions,
-      cookbooks,
-    });
-
-    const savedRecipe = await newRecipe.save();
-    response.json(savedRecipe);
-  } catch (err) {
-    console.error(`ERROR: Could not create recipe: ${err}`);
-  }
-});
-
 // Cookbooks: GET
 app.get(apiEndpoint.cookbooks, async (request, response) => {
   try {
@@ -171,6 +134,85 @@ app.get(apiEndpoint.recipe, async (request, response) => {
     response.json(data);
   } catch (err) {
     console.error(`ERROR: Could not get recipe by id: ${id}\n ${err}`);
+  }
+});
+
+// Recipe: Create
+app.post(apiEndpoint.recipes, async (request, response) => {
+  try {
+    const {
+      title,
+      servings,
+      prepTime,
+      cookTime,
+      totalTime,
+      thumbnail,
+      ingredients,
+      directions,
+      cookbookId,
+    } = request.body;
+    const newRecipe = new Recipe({
+      title,
+      servings,
+      time: {
+        prep: prepTime,
+        cook: cookTime,
+        total: totalTime,
+      },
+      image: {
+        thumbnail: thumbnail ? thumbnail : "/static/demo/placeholder.png",
+      },
+      ingredients,
+      directions,
+      cookbookId, // one recipe should belong to only one collection. belonging to more could be done with tags
+    });
+
+    const savedRecipe = await newRecipe.save();
+    response.json(savedRecipe);
+  } catch (err) {
+    console.error(`ERROR: Could not create recipe: ${err}`);
+  }
+});
+
+// Recipe: Update
+app.put(apiEndpoint.recipe, async (request, response) => {
+  try {
+    const { id } = request.params;
+    const {
+      title,
+      servings,
+      time,
+      image,
+      ingredients,
+      directions,
+      cookbookId,
+    } = request.body;
+
+    const recipe = await Recipe.findById(id);
+    if (recipe) {
+      const updatedRecipe = await Recipe.updateOne(
+        { _id: id },
+        {
+          title,
+          servings,
+          time,
+          image,
+          ingredients,
+          directions,
+          cookbookId,
+          // NOTE: default values are coming from the frontend
+        }
+      );
+
+      if (updatedRecipe) {
+        // console.log(`Updated recipe: ${await Recipe.findById(id)}`);
+        response.json(await Recipe.findById(id));
+      }
+    } else {
+      console.error(`ERROR: Recipe not found: ${id} \n ${err}`);
+    }
+  } catch (err) {
+    console.error(`ERROR: Could not update recipe: ${err}`);
   }
 });
 
