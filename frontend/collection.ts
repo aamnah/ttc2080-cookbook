@@ -1,15 +1,20 @@
 import { getQueryParam } from "./helpers";
-import { fetchCookbookById, fetchRecipeById } from "./api";
+import {
+  fetchCookbookById,
+  fetchRecipeById,
+  fetchRecipesByName,
+  fetchRecipesByCollectionId,
+} from "./api";
 import renderSidebarHtml from "./components/sidebar";
 import renderHeader from "./components/header";
 import renderCard from "./components/card";
 import renderCardBtn from "./components/cardNew";
 
-function renderCookbook(id, title, recipes) {
+function renderCookbook(id, cookbookTitle, recipes) {
   const container = document.querySelector("#contentContainer");
   let html = `
   <div>
-    <h2 class="text-4xl">${title}</h2>
+    <h2 class="text-4xl">${cookbookTitle}</h2>
     <div class="mt-2 flex flex-wrap gap-4">
     ${renderCardBtn({
       title: "Add New Recipe",
@@ -35,7 +40,7 @@ function renderCookbook(id, title, recipes) {
   </div>
   `;
 
-  console.log(`cookbook.items: ${recipes}`);
+  console.log(`cookbook.items sent to render: ${recipes}`);
 
   container.innerHTML = html;
 }
@@ -49,13 +54,31 @@ async function run() {
   console.log(`cookbook: ${data}`);
   document.title = data.title;
 
-  const recipes = [];
-  for (let recipeId of data.items) {
-    console.log(`recipeId: ${recipeId}`);
-    fetchRecipeById(recipeId).then(() => {
-      console.log(`recipe: ${recipe.title}`);
-      recipes.push(recipe);
-    });
+  let recipes = [];
+  for (let entry of data.items) {
+    console.log(`ID or Name: ${entry}`);
+    const recipeById = await fetchRecipeById(entry); // [{}] for each recipe, one recipe is {}
+    const recipesByName = await fetchRecipesByName(entry); // [{}, {}, {}]
+    console.log(
+      `
+    fetchRecipesByName(${entry}): ${recipesByName};
+    fetchRecipeById(${entry}): ${recipeById};
+    `
+    );
+
+    if (recipeById && !("error" in recipeById)) {
+      console.dir(
+        `Found recipe by ID: ${recipeById}. Type of recipeById: ${typeof recipeById}`
+      );
+      recipes.push(recipeById);
+    } else if (recipesByName) {
+      if (!("error" in recipesByName)) {
+        // Many recipes can be returned by a name
+        // data will be [{}, {}]
+        console.log(`Found recipes by Name: ${recipesByName}`);
+        recipes = recipes.concat(recipesByName);
+      }
+    }
   }
 
   console.log(`recipes: ${recipes}`);
@@ -70,3 +93,19 @@ function initialRender() {
   const headerContainer = document.querySelector("#headerContainer");
   headerContainer.innerHTML = renderHeader();
 }
+
+// async function testEndpoints() {
+//   console.log(
+//     `
+//     fetchRecipesByName('pasta'): ${await fetchRecipesByName("pasta")};
+//     fetchRecipeById('6752eca5fabf10ff02ca4484'): ${await fetchRecipeById(
+//       "6752eca5fabf10ff02ca4484"
+//     )};
+//     fetchRecipesByCollectionId('6752ec52fabf10ff02ca447a'): ${await fetchRecipesByCollectionId(
+//       "6752ec52fabf10ff02ca447a"
+//     )};
+// }
+//   `
+//   );
+// }
+// testEndpoints();
