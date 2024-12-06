@@ -21,8 +21,34 @@ Easiest fix is to move your `index.html` to `src` and make `src` the new root
 https://vite.dev/guide/build.html#rebuild-on-files-changes
 https://rollupjs.org/configuration-options/#watch
 
-## Unnecessary commas with `map`
+## Unnecessary commas when doing `map`
 
 Use `.join('')` on the result of `.map()`
 
 https://stackoverflow.com/a/45812277
+
+## API response is HTML
+Check that the endpoint URL you are calling and that it supports the `method` that you are trying to use. 95% of the time, in my case, it has been a URL that was incorrect or missing expected params
+
+Implement a 404 default message for routes that don't exist
+
+```js
+app.use((req, res, next) => {
+  res.status(404).json({ message: "Route not found", route: request.originalUrl });
+})
+```
+
+[ref](https://stackoverflow.com/a/64345183)
+
+## Getting the route that was called in Express
+
+```js
+app.use('/admin', function (req, res, next) { // GET 'http://www.example.com/admin/new?sort=desc'
+  console.dir(req.originalUrl) // '/admin/new?sort=desc'
+  console.dir(req.baseUrl) // '/admin'
+  console.dir(req.path) // '/new'
+  next()
+})
+```
+
+[ref for what's available on `request` object](https://expressjs.com/en/api.html)
