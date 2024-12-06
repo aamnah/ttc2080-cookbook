@@ -150,7 +150,7 @@ async function handleEvents() {
         window.location.href = "/recipes";
       }, 5000);
     } catch (err) {
-      statusText = `<span class="text-green-500">Could not create recipe. ${err}</span>`;
+      statusText = `<span class="text-red-500">Could not create recipe. ${err}</span>`;
       console.error(statusText);
       statusTextContainer.innerHTML = statusText;
     }
