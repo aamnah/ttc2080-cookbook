@@ -5,6 +5,7 @@ A recipe book manager that lets you oraganize and store recipes.
 - [Setup](./docs/setup.md)
 - [Lessons learned](./docs/lessons-learned.md)
 - [Screenshots](./screenshots/)
+- [Time costs](#time-costs)
 
 ![Recipes landing page](./screenshots/recipe-listing.png)
 
