@@ -127,3 +127,13 @@ export async function createRecipe(recipe: {
     console.error(`API ERROR: Failed to create recipe: ${err} \n ${err}`);
   }
 }
+
+export async function deleteRecipeById(id: string) {
+  try {
+    const data = await fetch(`${apiBaseUrl}/recipes/${id}`, {
+      method: "DELETE",
+    });
+  } catch (err) {
+    console.error(`API ERROR: Failed to delete recipe by ID: ${id} \n ${err}`);
+  }
+}

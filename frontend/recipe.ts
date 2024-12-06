@@ -1,4 +1,4 @@
-import { fetchRecipeById } from "./api";
+import { fetchRecipeById, deleteRecipeById } from "./api";
 import { getQueryParam } from "./helpers";
 import renderSidebarHtml from "./components/sidebar";
 import renderHeader from "./components/header";
@@ -57,13 +57,17 @@ function renderRecipe(recipe) {
       </ul>
       <h3 class="text-2xl mt-4">Ingredients</h3>
       <ul>
-        ${ingredients.map((i) => `<li data-editable>${i}</li>`).join("")}
+        ${ingredients
+          .map((i) => `<li data-editable class="mt-2">${i}</li>`)
+          .join("")}
       </ul>
       <h3 class="text-2xl mt-4">Directions</h3>
       ${
         Array.isArray(directions)
           ? `<ul>
-        ${directions.map((step) => `<li data-editable>${step}</li>`).join("")}
+        ${directions
+          .map((step) => `<li data-editable class="mt-2">${step}</li>`)
+          .join("")}
       </ul>`
           : `<p data-editable>${directions}</p>`
       }
@@ -87,9 +91,8 @@ async function run() {
   const headerContainer = document.querySelector("#headerContainer");
   headerContainer.innerHTML = renderHeader();
 
-  const id = getQueryParam(location, "id");
+  const id = getQueryParam(window.location, "id");
   const data = await fetchRecipeById(id);
-  console.log(id);
 
   console.log(`
     id: ${id}
@@ -105,40 +108,6 @@ async function run() {
   const deleteBtns = document.querySelectorAll(".deleteBtn");
   const editableAreas = document.querySelectorAll("[data-editable]");
 
-  // editBtn?.addEventListener("click", (event) => {
-  //   event.preventDefault();
-  //   editBtn.style.display = "none";
-  //   saveBtn.style.display = "block";
-  //   cancelBtn.style.display = "block";
-  //   deleteBtn.style.display = "block";
-
-  //   editableAreas.forEach((item) => {
-  //     item.setAttribute("contenteditable", "true");
-  //   });
-  // });
-
-  // saveBtn?.addEventListener("click", (event) => {
-  //   event.preventDefault();
-  //   editBtn.style.display = "block";
-  //   saveBtn.style.display = "none";
-  //   cancelBtn.style.display = "none";
-  //   deleteBtn.style.display = "none";
-
-  //   editableAreas.forEach((item) => {
-  //     item.setAttribute("contenteditable", "false");
-  //   });
-  // });
-
-  // cancelBtn?.addEventListener("click", (event) => {
-  //   event.preventDefault();
-  //   editBtn.style.display = "block";
-  //   saveBtn.style.display = "none";
-  //   cancelBtn.style.display = "none";
-  //   deleteBtn.style.display = "none";
-  //   editableAreas.forEach((item) => {
-  //     item.setAttribute("contenteditable", "false");
-  //   });
-  // });
   editBtns.forEach((btn) => {
     btn.addEventListener("click", (event) => {
       event.preventDefault();
@@ -185,7 +154,13 @@ async function run() {
     btn.addEventListener("click", (event) => {
       event.preventDefault();
       if (confirm("Are you sure you want to delete?") === true) {
-        alert("got it");
+        try {
+          // make a call to the API
+          deleteRecipeById(id);
+          window.location.href = "/recipes";
+        } catch (err) {
+          console.error(`Could not delete recipe ${id}`);
+        }
       }
 
       editBtns.forEach((btn) => (btn.style.display = "block"));
@@ -197,7 +172,6 @@ async function run() {
         item.setAttribute("contenteditable", "false");
       });
     });
-    // TODO: make a call to the API
   });
 }
 
