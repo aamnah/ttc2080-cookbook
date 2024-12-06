@@ -13,7 +13,7 @@ function renderCookbook(id, title, recipes) {
     <div class="mt-2 flex flex-wrap gap-4">
     ${renderCardBtn({
       title: "Add New Recipe",
-      link: `recipe-add?cookbook=${id}`,
+      link: `recipe-add?collectionId=${id}`,
       image: `/static/demo/placeholder_add.png`,
     })}
     ${

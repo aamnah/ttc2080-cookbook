@@ -2,6 +2,7 @@ import { createRecipe } from "./api";
 import renderSidebarHtml from "./components/sidebar";
 import renderHeader from "./components/header";
 import renderSpinner from "./components/spinner";
+import { getQueryParam } from "./helpers";
 
 function renderView() {
   const container = document.querySelector("#contentContainer");
@@ -79,8 +80,9 @@ function initialRender() {
   headerContainer.innerHTML = renderHeader();
 }
 
-function gatherRequestBody(cookbookId) {
-  // TODO: if a recipe is being added from a collection, pass the collection ID with the request
+function gatherRequestBody() {
+  const collectionId = getQueryParam(window.location, "collectionId");
+
   const containerElement = {
     title: document.querySelector("input#recipeTitle"),
     servings: document.querySelector("input#servingsCount"),
@@ -97,17 +99,23 @@ function gatherRequestBody(cookbookId) {
   const ingredients = [],
     directions = [];
 
+  // Determine ingredients
   containerElement.ingredients.forEach((item) => {
     ingredients.push(item.innerText);
   });
   values.ingredients = ingredients;
 
+  // Determine direction steps
   containerElement.directions.forEach((item) => {
     directions.push(item.innerText);
   });
   values.directions = directions;
 
+  // Servings should be a number
   values.servings = parseInt(values.servings);
+
+  // Pass the cookbook Id
+  values.collectionId = collectionId;
 
   // console.log(values.title);
   return values;
@@ -139,16 +147,25 @@ async function handleEvents() {
   // Save button
   const saveBtn = document.querySelector("#saveBtn");
   const statusTextContainer = document.querySelector("#statusText");
-  saveBtn?.addEventListener("click", (event) => {
+  saveBtn?.addEventListener("click", async (event) => {
     event.preventDefault();
     let statusText = "";
     try {
-      createRecipe(gatherRequestBody());
-      statusText = `<span class="text-green-500">Successfully created new recipe. Redirecting to Recipes listing page ${renderSpinner()}</span>`;
-      statusTextContainer.innerHTML = statusText;
-      window.setTimeout(() => {
-        window.location.href = "/recipes";
-      }, 5000);
+      const done = await createRecipe(gatherRequestBody());
+
+      if (done) {
+        statusText = `<span class="text-green-500">Successfully created new recipe. Redirecting to Recipes listing page ${renderSpinner()}</span>`;
+        statusTextContainer.innerHTML = statusText;
+        window.setTimeout(() => {
+          const collectionId = getQueryParam(window.location, "collectionId");
+
+          if (collectionId) {
+            window.location.href = `/collection?id=${collectionId}`;
+          } else {
+            window.location.href = "/recipes";
+          }
+        }, 5000);
+      }
     } catch (err) {
       statusText = `<span class="text-red-500">Could not create recipe. ${err}</span>`;
       console.error(statusText);
@@ -171,3 +188,7 @@ async function run() {
 }
 
 run();
+
+// TODO: [x] if a recipe is being added from a collection, pass the collection ID with the request
+// TODO:  [ ] if recipe was created from within a collection, go back to that collection on success
+  // [x] Otherwise, go to the Recipes listing page
