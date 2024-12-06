@@ -16,17 +16,21 @@ function renderCookbook(id, title, recipes) {
       link: `recipe-add?cookbook=${id}`,
       image: `/static/demo/placeholder_add.png`,
     })}
-    ${recipes
-      .map((recipe) => {
-        const { _id, title, image } = recipe;
-        return renderCard({
-          id: _id,
-          title,
-          link: `recipe?id=${_id}`,
-          // image: thumbnail,
-        });
-      })
-      .join("")}
+    ${
+      recipes.length > 1
+        ? recipes
+            .map((recipe) => {
+              const { _id, title, image } = recipe;
+              return renderCard({
+                id: _id,
+                title,
+                link: `recipe?id=${_id}`,
+                // image: thumbnail,
+              });
+            })
+            .join("")
+        : `<p>This collection has no recipes at the moment. Feel free to add one.</p>`
+    }
     </div>
   </div>
   `;
@@ -50,10 +54,12 @@ async function run() {
   document.title = data.title;
 
   const recipes = [];
-  for (let id of data.items) {
-    const recipe = await fetchRecipeById(id);
-    console.log(`recipe: ${recipe.title}`);
-    recipes.push(recipe);
+  for (let recipeId of data.items) {
+    console.log(`recipeId: ${recipeId}`);
+    fetchRecipeById(recipeId).then(() => {
+      console.log(`recipe: ${recipe.title}`);
+      recipes.push(recipe);
+    });
   }
 
   console.log(`recipes: ${recipes}`);
