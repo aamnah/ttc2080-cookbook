@@ -4,8 +4,10 @@ A recipe book manager that lets you oraganize and store recipes.
 
 - [Setup](./docs/setup.md)
 - [Lessons learned](./docs/lessons-learned.md)
-- [Screenshots](./screenshots/)
+- [All Screenshots](./screenshots/)
 - [Time costs](#time-costs)
+
+More than 8 custom views have been added. Some are
 
 ![Recipes landing page](./screenshots/recipe-listing.png)
 
