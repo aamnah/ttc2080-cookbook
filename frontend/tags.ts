@@ -25,7 +25,7 @@ async function run() {
   const headerContainer = document.querySelector("#headerContainer");
   headerContainer.innerHTML = renderHeader();
 
-  const name = getQueryParam(location, "id");
+  const name = getQueryParam(window.location, "id");
   const data = await fetchRecipesByTag(name);
   console.log(`data: ${data}`);
 
