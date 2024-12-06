@@ -52,3 +52,22 @@ app.use('/admin', function (req, res, next) { // GET 'http://www.example.com/adm
 ```
 
 [ref for what's available on `request` object](https://expressjs.com/en/api.html)
+
+
+## Response 200 but no data
+See if any data was returned from the database. Send `json` with an error message in case of failed requests
+
+```js
+data = await Recipe.find({
+  title: { $regex: name, $options: "i" },
+  cookbookId: cookbookId,
+});
+if (data) {
+  console.log(`Recipes by Name and Cookbook ID: ${data}`);
+  response.json(data);
+} else {
+  response.status(404).json({
+    error: `Recipe not found with name: ${name} and Cookbook ID: ${cookbookId}`,
+  });
+}
+```
