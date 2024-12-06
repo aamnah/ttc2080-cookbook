@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { apiEndpoint } from "./constants.js";
 
 const port = 3000;
 
@@ -19,6 +18,15 @@ const db = mongoose.connection;
 
 db.on("error", (err) => console.error(`Connection Error: ${err}`));
 db.once("open", () => console.log(`Database connection established`));
+
+// Endpoints
+const apiBaseUrl = "/api";
+const apiEndpoint = {
+  base: `${apiBaseUrl}/`,
+  cookbooks: `${apiBaseUrl}/cookbooks`,
+  recipes: `${apiBaseUrl}/recipes/`,
+  tags: `${apiBaseUrl}/tags/`,
+};
 
 const cookbookSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -86,7 +94,7 @@ app.get(apiEndpoint.cookbooks, async (request, response) => {
 });
 
 // Cookbook: GET by ID
-app.get(apiEndpoint.cookbook, async (request, response) => {
+app.get(`${apiEndpoint.cookbooks}/:id`, async (request, response) => {
   const { id } = request.params;
   try {
     const data = await Cookbook.findById(id);
@@ -98,7 +106,7 @@ app.get(apiEndpoint.cookbook, async (request, response) => {
 });
 
 // Cookbook: DELETE by ID
-app.delete(apiEndpoint.cookbook, async (request, response) => {
+app.delete(`${apiEndpoint.cookbooks}/:id`, async (request, response) => {
   const { id } = request.params;
   try {
     const doc = await Cookbook.findById(id);
@@ -114,9 +122,10 @@ app.delete(apiEndpoint.cookbook, async (request, response) => {
   }
 });
 
-// Recipes: GET all, GET many by ID, NAME, COLLECTION 
+// Recipes: GET all, GET many by ID, NAME, COLLECTION
 app.get(apiEndpoint.recipes, async (request, response) => {
   const { id, name, cookbookId } = request.query;
+  // If params are missing, or spelled/named incorrectly, it will return ALL results
   try {
     let data;
     if (id) {
@@ -124,7 +133,7 @@ app.get(apiEndpoint.recipes, async (request, response) => {
       console.log(`recipes by ID: ${data}`);
       response.json(data);
     }
-    // TODO: [ ] implement multiple filters
+    // TODO: [x] implement multiple filters
     else if (name && cookbookId) {
       data = await Recipe.find({
         title: { $regex: name, $options: "i" },
@@ -149,6 +158,7 @@ app.get(apiEndpoint.recipes, async (request, response) => {
           .json({ error: `Recipe not found by name: ${name}` });
       }
     } else if (cookbookId) {
+      // These results are different from what you will get from /cookbook/:id
       data = await Recipe.find({ cookbookId: cookbookId });
       if (data) {
         console.log(`recipes by Cookbook ID: ${data}`);
@@ -173,7 +183,7 @@ app.get(apiEndpoint.recipes, async (request, response) => {
 });
 
 // Recipe: GET one by ID
-app.get(apiEndpoint.recipe, async (request, response) => {
+app.get(`${apiEndpoint.recipes}/:id`, async (request, response) => {
   const { id } = request.params;
   try {
     const data = await Recipe.findById(id);
@@ -226,7 +236,7 @@ app.post(apiEndpoint.recipes, async (request, response) => {
 });
 
 // Recipe: Update
-app.put(apiEndpoint.recipe, async (request, response) => {
+app.put(`${apiEndpoint.recipes}/:id`, async (request, response) => {
   try {
     const { id } = request.params;
     const {
@@ -268,7 +278,7 @@ app.put(apiEndpoint.recipe, async (request, response) => {
 });
 
 // Recipe: DELETE by ID
-app.delete(apiEndpoint.recipe, async (request, response) => {
+app.delete(`${apiEndpoint.recipes}/:id`, async (request, response) => {
   const { id } = request.params;
   try {
     const doc = await Recipe.findById(id);
@@ -286,7 +296,7 @@ app.delete(apiEndpoint.recipe, async (request, response) => {
 
 // app.get(apiEndpoint.tags, async (request, response) => {});
 // Tag: Get by Name
-app.get(apiEndpoint.tag, async (request, response) => {
+app.get(`${apiEndpoint.tags}/:name`, async (request, response) => {
   const { name } = request.query;
   try {
     const data = await Recipe.find({ tags: name });
