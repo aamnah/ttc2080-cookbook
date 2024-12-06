@@ -1,0 +1,21 @@
+meta {
+  name: Recipe by Name & Cookbook ID
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/recipes?name=Pasta&collecitionId=6752ec52fabf10ff02ca447a
+  body: none
+  auth: none
+}
+
+params:query {
+  name: Pasta
+  collecitionId: 6752ec52fabf10ff02ca447a
+}
+
+vars:pre-request {
+  sampleId: 6750d37b5237ce325c1c9a30
+  sampleId2: 6750d37b5237ce325c1c9a25
+}

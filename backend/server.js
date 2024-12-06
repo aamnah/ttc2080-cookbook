@@ -114,24 +114,75 @@ app.delete(apiEndpoint.cookbook, async (request, response) => {
   }
 });
 
-// Recipes: GET
+// Recipes: GET all, GET many by ID, NAME, COLLECTION 
 app.get(apiEndpoint.recipes, async (request, response) => {
+  const { id, name, cookbookId } = request.query;
   try {
-    const data = await Recipe.find();
-    console.log(`recipes: ${data}`);
-    response.json(data);
+    let data;
+    if (id) {
+      data = await Recipe.findById(id);
+      console.log(`recipes by ID: ${data}`);
+      response.json(data);
+    }
+    // TODO: [ ] implement multiple filters
+    else if (name && cookbookId) {
+      data = await Recipe.find({
+        title: { $regex: name, $options: "i" },
+        cookbookId: cookbookId,
+      });
+      if (data) {
+        console.log(`Recipes by Name and Cookbook ID: ${data}`);
+        response.json(data);
+      } else {
+        response.status(404).json({
+          error: `Recipe not found with name: ${name} and Cookbook ID: ${cookbookId}`,
+        });
+      }
+    } else if (name) {
+      data = await Recipe.find({ title: { $regex: name, $options: "i" } }); // Partial match for title (case-insensitive)
+      if (data) {
+        console.log(`recipes by Name: ${data}`);
+        response.json(data);
+      } else {
+        response
+          .status(404)
+          .json({ error: `Recipe not found by name: ${name}` });
+      }
+    } else if (cookbookId) {
+      data = await Recipe.find({ cookbookId: cookbookId });
+      if (data) {
+        console.log(`recipes by Cookbook ID: ${data}`);
+        response.json(data);
+      } else {
+        response.status(404).json({
+          error: `Recipe not found with Cookbook ID: ${cookbookId}`,
+        });
+      }
+    }
+    data = await Recipe.find();
+    if (data) {
+      response.json(data);
+    } else {
+      response
+        .status(404)
+        .json({ error: `No recipes not found with ID: ${id}` });
+    }
   } catch (err) {
     console.error(`ERROR: Could not get recipes: ${err}`);
   }
 });
 
-// Recipe: GET by ID
+// Recipe: GET one by ID
 app.get(apiEndpoint.recipe, async (request, response) => {
   const { id } = request.params;
   try {
     const data = await Recipe.findById(id);
-    console.log(`recipe: ${data}`);
-    response.json(data);
+    if (data) {
+      console.log(`recipe: ${data}`);
+      response.json(data);
+    } else {
+      response.status(404).json({ error: `Recipe not found with ID: ${id}` });
+    }
   } catch (err) {
     console.error(`ERROR: Could not get recipe by id: ${id}\n ${err}`);
   }
@@ -216,7 +267,6 @@ app.put(apiEndpoint.recipe, async (request, response) => {
   }
 });
 
-
 // Recipe: DELETE by ID
 app.delete(apiEndpoint.recipe, async (request, response) => {
   const { id } = request.params;
@@ -237,7 +287,7 @@ app.delete(apiEndpoint.recipe, async (request, response) => {
 // app.get(apiEndpoint.tags, async (request, response) => {});
 // Tag: Get by Name
 app.get(apiEndpoint.tag, async (request, response) => {
-  const { name } = request.params;
+  const { name } = request.query;
   try {
     const data = await Recipe.find({ tags: name });
     console.log(`tagged recipes: ${data}`);

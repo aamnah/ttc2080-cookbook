@@ -1,0 +1,15 @@
+meta {
+  name: Recipe by Name
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/recipes?name=pasta
+  body: none
+  auth: none
+}
+
+params:query {
+  name: pasta
+}
