@@ -2,24 +2,60 @@
 
 A recipe book manager that lets you oraganize and store recipes.
 
-## Planned functionality
-- Collection (Recipe collection, based on a food category, e.g. Desserts)
-  - Upload images
+- [Setup](./docs/setup.md)
+- [Lessons learned]()
+- [Screenshots]()
+
+```bash
+# Frontend
+cd frontend
+npm install && npm run dev
+```
+
+```bash
+# Backend
+cd backend
+npm install && npm run dev
+```
+
+## Implemented Functionality
+
+- Collections (Recipe collection, based on a food category, e.g. Desserts)
+  - View all recipes for that collection
+  - Create a recipe for a collection
+  - Create/Edit/View/Delete collection
+
+- Recipes 
+  - List all recipes
+  - List a single recipe with all details
   - Create/Edit/View/Delete recipe
-  - Ingredients
-  - Meta info (recipe count, servings etc.)
-- Recipe (one single recipe)
-  - Upload images
-  - Create/Edit/View/Delete recipe
-  - Ingredients
   - Meta info (cooking time, servings etc.)
-- Tags 
-  - List recipe/collection by tag
-- Public view
-- Admin view
+  - Found all recipes by a particular _tag_ name
+
+## Planned functionality
+- Search and filtering for recipes and collections
+  - Find recipes based on name, tag, collection
+  - Find collections based on name
+- Authentication and multi-user capacity
+- Uploading of images
 
 ## Stack
-- Web Server - Express / Fastify?
-- Frontend  - React / htmx?
-- API - REST / GraphQL?
-- Authentication? we'll have a course on backend programming that will deal with graphql and authentication and stuff..
+- Web Server: Express
+- Frontend: Plain old HTML, CSS and JavaScript
+- API: REST API powered by Express
+
+
+## Time costs
+
+- Deciding the stack and implementation structure: 5 hours
+- Research: 5 hours
+- Designing the API: 2 hours
+- Coding the API: 10 hours
+- Designing the frontend: 5 hours
+- Coding the frontend:  15 hours
+- Troubleshooting and bug fixing: 15 hours
+- Documentation: 5 hours
+
+Total time spent: 62 hours
+
+
