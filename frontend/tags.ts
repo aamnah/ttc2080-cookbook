@@ -1,4 +1,4 @@
-import { fetchRecipesByTag } from "./api";
+import { fetchRecipesByTagName } from "./api";
 import { getQueryParam } from "./helpers";
 import renderCardHtml from "./components/card";
 import renderSidebarHtml from "./components/sidebar";
@@ -26,7 +26,7 @@ async function run() {
   headerContainer.innerHTML = renderHeader();
 
   const name = getQueryParam(window.location, "id");
-  const data = await fetchRecipesByTag(name);
+  const data = await fetchRecipesByTagName(name);
   console.log(`data: ${data}`);
 
   document.title = data.title;
