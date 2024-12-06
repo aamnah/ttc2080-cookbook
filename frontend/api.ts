@@ -134,7 +134,7 @@ export async function createRecipe(recipe: {
   }
 }
 
-export async function updateRecipe(
+export async function updateRecipeById(
   id: string,
   recipe: {
     title: string;
@@ -165,7 +165,7 @@ export async function updateRecipe(
       cookbookId: recipe.cookbookId ?? "",
     };
 
-    const response = await fetch(`${apiBaseUrl}/recipes/`, {
+    const response = await fetch(`${apiBaseUrl}/recipes/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -177,9 +177,9 @@ export async function updateRecipe(
       console.error(
         `API ERROR: Response not okay. Failed to update recipe: \n ${response}`
       );
-      const data = await response.json();
-      return data;
     }
+    const data = await response.json();
+    return data;
   } catch (err) {
     console.error(`API ERROR: Failed to update recipe by ID: ${id} \n ${err}`);
   }
