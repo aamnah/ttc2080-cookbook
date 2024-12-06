@@ -12,12 +12,18 @@ npx parcel 'frontend/*' # start parcel
 
 # -OR-
 npm run dev
+
+# https://localhost:1234
 ```
+
+- [TypeScript](https://www.typescriptlang.org/)
 
 ## Backend
 
 ```bash
 npm run dev # start express
+
+# https://localhost:3000
 ```
 
 - `.env` was used for keeping database credentials secure

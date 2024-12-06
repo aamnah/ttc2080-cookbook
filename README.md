@@ -21,12 +21,16 @@ More than 8 custom views have been added. Some are
 # Frontend
 cd frontend
 npm install && npm run dev
+
+# https://localhost:1234
 ```
 
 ```bash
 # Backend
 cd backend
 npm install && npm run dev
+
+# https://localhost:3000
 ```
 
 ## Implemented Functionality
