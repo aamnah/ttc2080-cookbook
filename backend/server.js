@@ -135,6 +135,7 @@ app.get(`${apiEndpoint.recipes}/:id`, async (request, response) => {
     }
   } catch (err) {
     console.error(`ERROR: Could not get recipe by id: ${id}\n ${err}`);
+    response.status(404).json({ error: `Recipe not found with ID: ${id}` });
   }
 });
 
