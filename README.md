@@ -3,8 +3,10 @@
 A recipe book manager that lets you oraganize and store recipes.
 
 - [Setup](./docs/setup.md)
-- [Lessons learned]()
-- [Screenshots]()
+- [Lessons learned](./docs/lessons-learned.md)
+- [Screenshots](./screenshots/)
+
+![Recipes landing page](./screenshots/recipe-listing.png)
 
 ```bash
 # Frontend
