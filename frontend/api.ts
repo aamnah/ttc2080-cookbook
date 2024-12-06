@@ -15,12 +15,52 @@ export async function fetchRecipes() {
 
 export async function fetchRecipeById(id: string) {
   try {
-    const response = await fetch(`${apiBaseUrl}/recipes/${id}`);
+    const response = await fetch(
+      `${apiBaseUrl}/recipes/${encodeURIComponent(id)}`
+    );
     const data = await response.json();
     return data;
   } catch (err) {
     console.error(`API ERROR: Could not get recipe by ID: ${id}\n ${err}`);
     return [];
+  }
+}
+
+export async function fetchRecipesByName(name: string) {
+  try {
+    const response = await fetch(
+      `${apiBaseUrl}/recipes?name=${encodeURIComponent(name)}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error(`API ERROR: Failed to get recipe by name: ${name} \n ${err}`);
+  }
+}
+
+export async function fetchRecipesByTagName(name: string) {
+  try {
+    const response = await fetch(
+      `${apiBaseUrl}/tags?name=${encodeURIComponent(name)}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error(`API ERROR: Failed to get tag by name: ${name} \n ${err}`);
+  }
+}
+
+export async function fetchRecipesByCollectionId(cookbookId: string) {
+  try {
+    const response = await fetch(
+      `${apiBaseUrl}/recipes?cookbookId=${encodeURIComponent(cookbookId)}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error(
+      `API ERROR: Failed to get recipes by collection id: ${cookbookId} \n ${err}`
+    );
   }
 }
 
@@ -37,21 +77,13 @@ export async function fetchCookbooks() {
 
 export async function fetchCookbookById(id: string) {
   try {
-    const response = await fetch(`${apiBaseUrl}/cookbooks/${id}`);
+    const response = await fetch(
+      `${apiBaseUrl}/cookbooks/${encodeURIComponent(id)}`
+    );
     const data = await response.json();
     return data;
   } catch (err) {
     console.error(`API ERROR: Could not get cookbook by ID: ${id} \n ${err}`);
-  }
-}
-
-export async function fetchRecipesByTag(tag: string) {
-  try {
-    const response = await fetch(`${apiBaseUrl}/tags/${tag}`);
-    const data = await response.json();
-    return data;
-  } catch (err) {
-    console.error(`API ERROR: Failed to get tag by name: ${tag} \n ${err}`);
   }
 }
 
@@ -165,13 +197,16 @@ export async function updateRecipeById(
       cookbookId: recipe.cookbookId ?? "",
     };
 
-    const response = await fetch(`${apiBaseUrl}/recipes/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    });
+    const response = await fetch(
+      `${apiBaseUrl}/recipes/${encodeURIComponent(id)}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
 
     if (!response.ok) {
       console.error(
@@ -187,9 +222,12 @@ export async function updateRecipeById(
 
 export async function deleteRecipeById(id: string) {
   try {
-    const data = await fetch(`${apiBaseUrl}/recipes/${id}`, {
-      method: "DELETE",
-    });
+    const data = await fetch(
+      `${apiBaseUrl}/recipes/${encodeURIComponent(id)}`,
+      {
+        method: "DELETE",
+      }
+    );
   } catch (err) {
     console.error(`API ERROR: Failed to delete recipe by ID: ${id} \n ${err}`);
   }
