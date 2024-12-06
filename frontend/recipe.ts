@@ -213,7 +213,7 @@ async function handleEvents(recipeId, data) {
         if (updatedRecipe) {
           console.log("updated recipe", updatedRecipe);
           const done = await renderRecipe(updatedRecipe);
-          const statusTextContainer = document.querySelector("#statusText");
+          const statusTextContainer = document.getElementById("statusText"); // need to declare it here because if declared outside, re-render would wipe it and the existing DOM
 
           if (done) {
             statusText = `<span class="text-green-500">Successfully updated recipe.</span>`;
