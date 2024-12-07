@@ -36,11 +36,12 @@ npm install && npm run dev
 ## Implemented Functionality
 
 - Collections (Recipe collection, based on a food category, e.g. Desserts)
+
   - View all recipes for that collection
   - Create a recipe for a collection
   - Create/Edit/View/Delete collection
 
-- Recipes 
+- Recipes
   - List all recipes
   - List a single recipe with all details
   - Create/Edit/View/Delete recipe
@@ -48,13 +49,16 @@ npm install && npm run dev
   - Found all recipes by a particular _tag_ name
 
 ## Planned functionality
+
 - Search and filtering for recipes and collections
   - Find recipes based on name, tag, collection
   - Find collections based on name
 - Authentication and multi-user capacity
 - Uploading of images
+- Implement more endpoints
 
 ## Stack
+
 - Frontend: Plain old HTML, CSS and JavaScript
 - API: REST API powered by Express
 
@@ -65,10 +69,27 @@ npm install && npm run dev
 - Designing the API: 2 hours
 - Coding the API: 10 hours
 - Designing the frontend: 5 hours
-- Coding the frontend:  15 hours
+- Coding the frontend: 15 hours
 - Troubleshooting and bug fixing: 15 hours
 - Documentation: 5 hours
 
 Total time spent: 62 hours
 
+## Backend API endpoints
 
+| Method | Endpoint                     | Description                                      |
+| ------ | ---------------------------- | ------------------------------------------------ |
+| GET    | /                            | Returns a list of all endpoints that can be used |
+| GET    | /recipes                     | Returns a list of all recipes                    |
+| GET    | /recipes?name=""             | Get a recipe by name                             |
+| GET    | /recipes?cookbookId=""       | Get a recipe by cookbook ID                      |
+| GET    | /recipes?name=""&cookbook="" | Get a recipe by name and cookbook ID             |
+| POST   | /recipes                     | Create a recipe                                  |
+| PUT    | /recipes/{id}                | Update a recipe by ID                            |
+| GET    | /recipes/{id}                | Return a single recipe by ID                     |
+| DELETE | /recipes/{id}                | Delete a recipe by ID                            |
+| GET    | /cookbooks                   | Returns a list of all cookbooks                  |
+| POST   | /cookbooks                   | Create a cookbook                                |
+| GET    | /cookbooks/{id}              | Return a single cookbook by ID                   |
+| DELETE | /cookbooks/{id}              | Delete a cookbook by ID                          |
+| GET    | /tags?name=""                | Return all recipes with a particular tag         |
