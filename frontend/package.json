@@ -1,9 +1,10 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "main": "index.js",
+  "source": "./*",
   "scripts": {
-    "dev": "parcel"
+    "dev": "parcel",
+    "build": "parcel build ./*.html"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,5 @@
   "staticFiles": {
     "staticPath": "static",
     "staticOutPath": "static"
-  },
-  "source": "./*"
+  }
 }
