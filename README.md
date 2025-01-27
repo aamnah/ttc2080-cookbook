@@ -2,6 +2,7 @@
 
 A recipe book manager that lets you oraganize and store recipes.
 
+- [Video DEMO](https://www.youtube.com/watch?v=UAPIm0-T270)
 - [Setup](./docs/setup.md)
 - [Lessons learned](./docs/lessons-learned.md)
 - [All Screenshots](./screenshots/)
